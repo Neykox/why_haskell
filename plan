@@ -1,0 +1,14 @@
+check if json correct
+
+call the recursive with initial and then with to_state
+    repeat
+        -> if to_state = finals -> return
+        -> find curr char
+        -> do curr action
+        -> move head and pass to_state
+
+
+how to read curr char move to next???
+
+if right go deeper (call recursive)
+else return

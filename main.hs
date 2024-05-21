@@ -8,16 +8,29 @@ import GHC.Generics
 import Data.Set (Set)
 import qualified Data.Set as Set
 
+data MyStates = MyStates {
+    read :: Char,
+    to_state :: String,
+    write :: Char,
+    action :: String
+} deriving (Show, Generic)
+
 data MyData = MyData {
     name :: String,
     alphabet :: [String],
-    blank :: Char,
+    blank :: String,
     states :: [String],
     initial :: String,
-    finals :: [String]
+    finals :: [String],
+    transitions :: [tname, [MyStates]]
 } deriving (Show, Generic)
 
 instance FromJSON MyData
+
+recur :: String -> String -> IO ()
+recur to_state head:tape = do
+    let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> read state == head) states) (transitions myData)
+    print matchingTransitions
 
 main :: IO ()
 main = do
@@ -40,3 +53,5 @@ main = do
                     if all checkChar secondArg
                         then putStrLn "All characters are in the alphabet and not equal to the blank character"
                         else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
+
+                    recur (initial myData) secondArg
