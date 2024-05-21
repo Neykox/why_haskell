@@ -1,11 +1,22 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 import System.IO
 import System.Environment (getArgs)
+import Data.Aeson (eitherDecode, FromJSON)
+import qualified Data.ByteString.Lazy as B
+import GHC.Generics
 
-printLines :: [String] -> Int -> IO ()
-printLines  [] _ = return ()
-printLines (line:lines) i = do
-    putStrLn $ show i ++ " " ++ line
-    printLines lines (i+1)
+data MyData = MyData {
+    name :: String,
+    alphabet :: [Char],
+    blank :: Char,
+    states :: [String],
+    initial :: String,
+    finals :: [String],
+    --transitions :: [(String, Char, String, Char, String)]
+} deriving (Show, Generic)
+
+instance FromJSON MyData
 
 main :: IO ()
 main = do
@@ -14,7 +25,16 @@ main = do
         [] -> putStrLn "Missing args"
         [_] -> putStrLn "Only one argument provided"
         (filename:secondArg:_) -> do
-            contents <- readFile filename
-            let linesOfFile = lines contents
-            printLines linesOfFile 0
+            contents <- B.readFile filename
+            let jsonData = eitherDecode contents :: Either String MyData
+            case jsonData of
+                Left err -> putStrLn $ "Error parsing JSON: " ++ err
+                Right data -> print data
             putStrLn $ "Second argument: " ++ secondArg
+
+            let set1 = Set.fromList data.alphabet
+            let excludedChar = data.blank
+            let checkChar = \c -> Set.member c set1 && c /= excludedChar
+            if all checkChar secondArg
+                then putStrLn "All characters are in set1 and not equal to the excluded character"
+                else putStrLn "Some characters are not in set1 or are equal to the excluded character"
