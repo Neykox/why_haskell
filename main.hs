@@ -1,5 +1,5 @@
+import System.IO
 import System.Environment (getArgs)
-
 
 printLines :: [String] -> Int -> IO ()
 printLines  [] _ = return ()
@@ -12,4 +12,9 @@ main = do
     args <- getArgs
     case args of
         [] -> putStrLn "Missing args"
-        xs -> printLines xs 0
+        [_] -> putStrLn "Only one argument provided"
+        (filename:secondArg:_) -> do
+            contents <- readFile filename
+            let linesOfFile = lines contents
+            printLines linesOfFile 0
+            putStrLn $ "Second argument: " ++ secondArg
