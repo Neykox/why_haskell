@@ -22,13 +22,13 @@ data MyData = MyData {
     states :: [String],
     initial :: String,
     finals :: [String],
-    transitions :: [tname, [MyStates]]
+    transitions :: [String, [MyStates]]
 } deriving (Show, Generic)
 
 instance FromJSON MyData
 
-recur :: String -> String -> IO ()
-recur to_state head:tape = do
+recur :: String -> String -> MyData -> IO ()
+recur to_state (head:tape) myData = do
     let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> read state == head) states) (transitions myData)
     print matchingTransitions
 
@@ -54,4 +54,4 @@ main = do
                         then putStrLn "All characters are in the alphabet and not equal to the blank character"
                         else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
 
-                    recur (initial myData) secondArg
+                    recur (initial myData) secondArg myData
