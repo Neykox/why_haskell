@@ -2,7 +2,7 @@
 
 import System.IO
 import System.Environment (getArgs)
-import Data.Aeson (eitherDecode, FromJSON)
+import Data.Aeson (eitherDecode, FromJSON, withObject, (.:))
 import qualified Data.ByteString.Lazy as B
 import GHC.Generics
 import Data.Set (Set)
@@ -15,6 +15,8 @@ data MyStates = MyStates {
     action :: String
 } deriving (Show, Generic)
 
+instance FromJSON MyStates
+
 data MyData = MyData {
     name :: String,
     alphabet :: [String],
@@ -26,16 +28,11 @@ data MyData = MyData {
 } deriving (Show, Generic)
 
 instance FromJSON MyData
-instance FromJSON MyStates where
-    parseJSON = withObject "MyStates" $ \v -> MyStates
-        <$> v .: "reading"
-        <*> v .: "to_state"
-        <*> v .: "write"
-        <*> v .: "action"
 
 recur :: String -> String -> MyData -> IO ()
 recur to_state (head:tape) myData = do
-    let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> reading state == head) states) (transitions myData)
+    putStrLn $ "head = " ++ [head] ++ " | to_state = " ++ to_state
+    let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> (reading state) == head) states) (transitions myData)
     print matchingTransitions
 
 main :: IO ()
