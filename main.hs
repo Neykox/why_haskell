@@ -9,7 +9,7 @@ import Data.Set (Set)
 import qualified Data.Set as Set
 
 data MyStates = MyStates {
-    read :: Char,
+    reading :: Char,
     to_state :: String,
     write :: Char,
     action :: String
@@ -18,18 +18,24 @@ data MyStates = MyStates {
 data MyData = MyData {
     name :: String,
     alphabet :: [String],
-    blank :: String,
+    blank :: Char,
     states :: [String],
     initial :: String,
     finals :: [String],
-    transitions :: [String, [MyStates]]
+    transitions :: [(String, [MyStates])]
 } deriving (Show, Generic)
 
 instance FromJSON MyData
+instance FromJSON MyStates where
+    parseJSON = withObject "MyStates" $ \v -> MyStates
+        <$> v .: "reading"
+        <*> v .: "to_state"
+        <*> v .: "write"
+        <*> v .: "action"
 
 recur :: String -> String -> MyData -> IO ()
 recur to_state (head:tape) myData = do
-    let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> read state == head) states) (transitions myData)
+    let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> reading state == head) states) (transitions myData)
     print matchingTransitions
 
 main :: IO ()
