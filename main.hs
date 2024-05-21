@@ -2,7 +2,7 @@
 
 import System.IO
 import System.Environment (getArgs)
-import Data.Aeson (eitherDecode, FromJSON, withObject, (.:))
+import Data.Aeson (eitherDecode, FromJSON, genericParseJSON, defaultOptions, withObject, (.:))
 import qualified Data.ByteString.Lazy as B
 import GHC.Generics
 import Data.Set (Set)
@@ -15,7 +15,8 @@ data MyStates = MyStates {
     action :: String
 } deriving (Show, Generic)
 
-instance FromJSON MyStates
+instance FromJSON MyStates where
+    parseJSON = genericParseJSON defaultOptions
 
 data MyData = MyData {
     name :: String,
@@ -27,7 +28,8 @@ data MyData = MyData {
     transitions :: [(String, [MyStates])]
 } deriving (Show, Generic)
 
-instance FromJSON MyData
+instance FromJSON MyData where
+    parseJSON = genericParseJSON defaultOptions
 
 recur :: String -> String -> MyData -> IO ()
 recur to_state (head:tape) myData = do
