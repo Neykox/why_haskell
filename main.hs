@@ -6,6 +6,7 @@ import Data.Aeson (eitherDecode, FromJSON, genericParseJSON, defaultOptions, wit
 import qualified Data.ByteString.Lazy as B
 import GHC.Generics
 import Data.Set (Set)
+import Data.Map (Map)
 import qualified Data.Set as Set
 
 data MyStates = MyStates {
@@ -16,7 +17,11 @@ data MyStates = MyStates {
 } deriving (Show, Generic)
 
 instance FromJSON MyStates where
-    parseJSON = genericParseJSON defaultOptions
+    parseJSON = withObject "MyStates" $ \v -> MyStates
+        <$> v .: "read"
+        <*> v .: "to_state"
+        <*> v .: "write"
+        <*> v .: "action"
 
 data MyData = MyData {
     name :: String,
@@ -25,11 +30,18 @@ data MyData = MyData {
     states :: [String],
     initial :: String,
     finals :: [String],
-    transitions :: [(String, [MyStates])]
+    transitions :: Map String [MyStates]
 } deriving (Show, Generic)
 
 instance FromJSON MyData where
-    parseJSON = genericParseJSON defaultOptions
+    parseJSON = withObject "MyData" $ \v -> MyData
+        <$> v .: "name"
+        <*> v .: "alphabet"
+        <*> v .: "blank"
+        <*> v .: "states"
+        <*> v .: "initial"
+        <*> v .: "finals"
+        <*> v .: "transitions"
 
 recur :: String -> String -> MyData -> IO ()
 recur to_state (head:tape) myData = do
