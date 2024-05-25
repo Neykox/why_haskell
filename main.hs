@@ -2,26 +2,23 @@
 
 import System.IO
 import System.Environment (getArgs)
-import Data.Aeson (eitherDecode, FromJSON, genericParseJSON, defaultOptions, withObject, (.:))
+import Data.Aeson (parseJSON, eitherDecode, FromJSON, genericParseJSON, defaultOptions, withObject, (.:))
 import qualified Data.ByteString.Lazy as B
 import GHC.Generics
 import Data.Set (Set)
 import Data.Map (Map)
 import qualified Data.Set as Set
+import qualified Data.Map as Map
+import Data.List (find)
 
 data MyStates = MyStates {
-    reading :: Char,
+    read :: Char,
     to_state :: String,
     write :: Char,
     action :: String
 } deriving (Show, Generic)
 
-instance FromJSON MyStates where
-    parseJSON = withObject "MyStates" $ \v -> MyStates
-        <$> v .: "read"
-        <*> v .: "to_state"
-        <*> v .: "write"
-        <*> v .: "action"
+instance FromJSON MyStates
 
 data MyData = MyData {
     name :: String,
@@ -33,21 +30,21 @@ data MyData = MyData {
     transitions :: Map String [MyStates]
 } deriving (Show, Generic)
 
-instance FromJSON MyData where
-    parseJSON = withObject "MyData" $ \v -> MyData
-        <$> v .: "name"
-        <*> v .: "alphabet"
-        <*> v .: "blank"
-        <*> v .: "states"
-        <*> v .: "initial"
-        <*> v .: "finals"
-        <*> v .: "transitions"
+instance FromJSON MyData
+
+findMatchingState :: String -> Char -> MyData -> Maybe MyStates
+findMatchingState to_state head myData = do
+    let matchingTransitions = Map.filter (\states -> to_state == to_state) (transitions myData)
+    states <- Map.lookup to_state matchingTransitions
+    find (\state -> Main.read state == head) states
 
 recur :: String -> String -> MyData -> IO ()
 recur to_state (head:tape) myData = do
     putStrLn $ "head = " ++ [head] ++ " | to_state = " ++ to_state
-    let matchingTransitions = filter (\(tn, states) -> tn == to_state && any (\state -> (reading state) == head) states) (transitions myData)
-    print matchingTransitions
+    let matchingState = findMatchingState to_state head myData
+    case matchingState of
+        Nothing -> putStrLn "No state found where head == read"
+        Just state -> print state
 
 main :: IO ()
 main = do
@@ -55,20 +52,17 @@ main = do
     case args of
         [] -> putStrLn "Missing args"
         [_] -> putStrLn "Only one argument provided"
-        (filename:secondArg:_) -> do
+        (filename:user_input:_) -> do
             contents <- B.readFile filename
             let jsonData = eitherDecode contents :: Either String MyData
             case jsonData of
                 Left err -> putStrLn $ "Error parsing JSON: " ++ err
                 Right myData -> do
-                    print myData
-                    putStrLn $ "Second argument: " ++ secondArg
-
                     let set1 = Set.fromList (concat (alphabet myData))
                     let excludedChar = blank myData
                     let checkChar = \c -> Set.member c set1 && c /= excludedChar
-                    if all checkChar secondArg
+                    if all checkChar user_input
                         then putStrLn "All characters are in the alphabet and not equal to the blank character"
                         else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
 
-                    recur (initial myData) secondArg myData
+                    recur (initial myData) user_input myData
