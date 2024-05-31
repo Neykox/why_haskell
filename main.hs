@@ -38,13 +38,25 @@ findMatchingState to_state head myData = do
     states <- Map.lookup to_state matchingTransitions
     find (\state -> Main.read state == head) states
 
-recur :: String -> String -> MyData -> IO ()
-recur to_state (head:tape) myData = do
-    putStrLn $ "head = " ++ [head] ++ " | to_state = " ++ to_state
-    let matchingState = findMatchingState to_state head myData
+handle_output :: String -> Char -> String -> String -> MyStates -> IO ()
+handle_output beg head tape curr_state state = do
+    let str = "[" ++ beg ++ "<" ++ [head] ++ ">" ++ tape ++ "] (" ++ curr_state ++ ", " ++ [head] ++ ") -> (" ++ (to_state state) ++ ", " ++ [(Main.write state)] ++ ", " ++ (action state) ++ ")"
+    putStrLn str
+
+recur :: String -> String -> String -> MyData -> IO ()
+recur curr_state beg (head:tape) myData = do
+    let matchingState = findMatchingState curr_state head myData
     case matchingState of
         Nothing -> putStrLn "No state found where head == read"
-        Just state -> print state
+        Just state -> do
+            handle_output beg head tape curr_state state
+            let newHead = (write state)
+            if (action state) == "RIGHT" then recur (to_state state) (beg ++ [newHead]) tape myData
+            else do
+                let lastCharOfBeg = last beg
+                let newTape = [lastCharOfBeg] ++ [newHead] ++ tape
+                let newBeg = init beg --remove last char of beg -> going to be the next head
+                recur (to_state state) newBeg newTape myData
 
 main :: IO ()
 main = do
@@ -65,4 +77,4 @@ main = do
                         then putStrLn "All characters are in the alphabet and not equal to the blank character"
                         else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
 
-                    recur (initial myData) user_input myData
+                    recur (initial myData) "" (user_input ++ "..........") myData
