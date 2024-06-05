@@ -2,7 +2,7 @@
     "name" : "0²n",
     "alphabet": [ "0", ".", "o", "e", "y", "n" ],
     "blank" : ".",
-    "states" : [ "odd", "even", "end", "yes", "no", "tmp" ],
+    "states" : [ "odd", "even", "end", "yes", "no" ],
     "initial" : "odd",
     "finals" : [ "HALT" ],
 
@@ -24,16 +24,11 @@
         ],
 
         "yes": [
-            { "read" : ".", "to_state": "tmp" , "write": "y", "action": "RIGHT"}
+            { "read" : ".", "to_state": "HALT" , "write": "y", "action": "RIGHT"}
         ],
 
         "no": [
-            { "read" : ".", "to_state": "tmp" , "write": "n", "action": "RIGHT"}
-        ],
-
-        "tmp": [
-            { "read" : ".", "to_state": "HALT" , "write": ".", "action": "RIGHT"},
-            { "read" : ".", "to_state": "HALT" , "write": ".", "action": "RIGHT"}
+            { "read" : ".", "to_state": "HALT" , "write": "n", "action": "RIGHT"}
         ]
     }
 }

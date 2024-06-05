@@ -47,7 +47,9 @@ recur :: String -> String -> String -> MyData -> IO ()
 recur curr_state beg (head:tape) myData = do
     let matchingState = findMatchingState curr_state head myData
     case matchingState of
-        Nothing -> putStrLn "No state found where head == read"
+        Nothing -> do
+            if curr_state `elem` (finals myData) then putStrLn ("[" ++ beg ++ "<" ++ [head] ++ ">" ++ tape ++ "]")
+            else putStrLn "No correct state found"--"No state found where head == read"
         Just state -> do
             handle_output beg head tape curr_state state
             let newHead = (write state)
