@@ -32,6 +32,15 @@ data MyData = MyData {
 
 instance FromJSON MyData
 
+printUsage :: IO ()
+printUsage = do
+    putStrLn "usage: ft_turing [-h] jsonfile input\n"
+    putStrLn "positional arguments:"
+    putStrLn "\tjsonfile\t\tjson description of the machine\n"
+    putStrLn "\tinput\t\t\tinput of the machine\n"
+    putStrLn "optional arguments:"
+    putStrLn "\t-h, --help\t\tshow this help message and exit"
+
 findMatchingState :: String -> Char -> MyData -> Maybe MyStates
 findMatchingState to_state head myData = do
     let matchingTransitions = Map.filter (\states -> to_state == to_state) (transitions myData)
@@ -64,6 +73,8 @@ main :: IO ()
 main = do
     args <- getArgs
     case args of
+        ("-h":_) -> printUsage
+        ("--help":_) -> printUsage 
         [] -> putStrLn "Missing args"
         [_] -> putStrLn "Only one argument provided"
         (filename:user_input:_) -> do
