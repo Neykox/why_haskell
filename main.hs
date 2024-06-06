@@ -78,16 +78,19 @@ main = do
         [] -> putStrLn "Missing args"
         [_] -> putStrLn "Only one argument provided"
         (filename:user_input:_) -> do
-            contents <- B.readFile filename
-            let jsonData = eitherDecode contents :: Either String MyData
-            case jsonData of
-                Left err -> putStrLn $ "Error parsing JSON: " ++ err
-                Right myData -> do
-                    let set1 = Set.fromList (concat (alphabet myData))
-                    let excludedChar = blank myData
-                    let checkChar = \c -> Set.member c set1 && c /= excludedChar
-                    if all checkChar user_input
-                        then putStrLn "All characters are in the alphabet and not equal to the blank character"
-                        else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
+            if null user_input
+                then putStrLn "User input is empty"
+                else do
+                    contents <- B.readFile filename
+                    let jsonData = eitherDecode contents :: Either String MyData
+                    case jsonData of
+                        Left err -> putStrLn $ "Error parsing JSON: " ++ err
+                        Right myData -> do
+                            let set1 = Set.fromList (concat (alphabet myData))
+                            let excludedChar = blank myData
+                            let checkChar = \c -> Set.member c set1 && c /= excludedChar
+                            if all checkChar user_input
+                                then putStrLn "All characters are in the alphabet and not equal to the blank character"
+                                else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
 
-                    recur (initial myData) "" (user_input ++ "..........") myData
+                            recur (initial myData) "" (user_input ++ "..........") myData
