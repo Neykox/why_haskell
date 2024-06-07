@@ -13,8 +13,8 @@
         ],
 
         "skip": [
-            { "read" : "1", "to_state": "pass", "write": "1", "action": "RIGHT"},
-            { "read" : "+", "to_state": "scanright", "write": "1", "action": "RIGHT"},
+            { "read" : "1", "to_state": "skip", "write": "1", "action": "RIGHT"},
+            { "read" : "+", "to_state": "skip", "write": "1", "action": "RIGHT"},
             { "read" : "=", "to_state": "HALT" , "write": ".", "action": "RIGHT" }
         ]
     }
