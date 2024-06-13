@@ -1,0 +1,47 @@
+{
+    "name" : "01",
+    "alphabet": [ "1", "0", ".", "y", "n" ],
+    "blank" : ".",
+    "states" : [ "remove", "skip_left", "skip_right", "odd", "even", "HALT" ],
+    "initial" : "odd_remove",
+    "finals" : [ "HALT" ],
+
+    "transitions" : {
+
+        "odd_remove": [
+            { "read" : "0", "to_state": "odd_skip_right", "write": ".", "action": "RIGHT"},
+            { "read" : "1", "to_state": "even_skip_left", "write": ".", "action": "LEFT"},
+            { "read" : ".", "to_state": "HALT", "write": ".", "action": "RIGHT"}
+        ],
+
+        "even_remove": [
+            { "read" : "0", "to_state": "even_skip_right", "write": ".", "action": "RIGHT"},
+            { "read" : "1", "to_state": "odd_skip_left", "write": ".", "action": "LEFT"},
+            { "read" : ".", "to_state": "HALT", "write": ".", "action": "RIGHT"}
+        ],
+
+        "odd_skip_left": [
+            { "read" : "0", "to_state": "odd_skip_left", "write": "0", "action": "LEFT"},
+            { "read" : "1", "to_state": "odd_skip_left", "write": "1", "action": "LEFT"},
+            { "read" : ".", "to_state": "even_remove", "write": ".", "action": "RIGHT"}
+        ],
+
+        "odd_skip_right": [
+            { "read" : "0", "to_state": "odd_skip_right", "write": "0", "action": "RIGHT"},
+            { "read" : "1", "to_state": "odd_skip_right", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "even_remove", "write": ".", "action": "LEFT"}
+        ],
+
+        "even_skip_left": [
+            { "read" : "0", "to_state": "even_skip_left", "write": "0", "action": "LEFT"},
+            { "read" : "1", "to_state": "even_skip_left", "write": "1", "action": "LEFT"},
+            { "read" : ".", "to_state": "odd_remove", "write": ".", "action": "RIGHT"}
+        ],
+
+        "even_skip_right": [
+            { "read" : "0", "to_state": "even_skip_right", "write": "0", "action": "RIGHT"},
+            { "read" : "1", "to_state": "even_skip_right", "write": "1", "action": "RIGHT"},
+            { "read" : ".", "to_state": "odd_remove", "write": ".", "action": "LEFT"}
+        ]
+    }
+}
