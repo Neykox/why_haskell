@@ -10,6 +10,7 @@ import Data.Map (Map)
 import qualified Data.Set as Set
 import qualified Data.Map as Map
 import Data.List (find)
+import System.Exit (exitFailure)
 
 data MyStates = MyStates {
     read :: Char,
@@ -91,6 +92,8 @@ main = do
                             let checkChar = \c -> Set.member c set1 && c /= excludedChar
                             if all checkChar user_input
                                 then putStrLn "All characters are in the alphabet and not equal to the blank character"
-                                else putStrLn "Some characters are not in the alphabet or are equal to the blank character"
+                                else do
+                                    putStrLn "Some characters are not in the alphabet or are equal to the blank character"
+                                    exitFailure
 
                             recur (initial myData) "" (user_input ++ "..........") myData
