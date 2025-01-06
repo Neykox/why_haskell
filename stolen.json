@@ -1,0 +1,339 @@
+{
+    "name" : "inception",
+    "alphabet": [ "1", "+", ".", "a", "b", "c", "A", "B", "C", "P", "Q", "F", "X", "I", "0", "#", "S" ],
+    "blank" : ".",
+    "states" : [ "initial",
+      "A_state", "A_state_1_find", "A_state_1_found", "A_state_+_find", "A_state_+_found",
+      "B_state", "B_state_1_find", "B_state_1_found", "B_state_+_find", "B_state_+_found",
+      "C_state", "C_state_1_find", "C_state_1_found", "C_state_+_find", "C_state_+_found",
+      "decide", "set_dot", "set_one", "back", "change_state",
+      "change_state_A_begin", "change_state_A",
+      "change_state_B_begin", "change_state_B",
+      "change_state_C_begin", "change_state_C",
+      "restart", "final", "reset", "HALT" ],
+    "initial" : "initial",
+    "finals" : [ "HALT" ],
+    "transitions" : {
+      "initial": [
+        { "read" : "A", "to_state": "A_state", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "B_state", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "C_state", "write": "C", "action": "RIGHT"},
+        { "read" : "S", "to_state": "initial", "write": "S", "action": "RIGHT"}
+      ],
+      "A_state": [
+        { "read" : "1", "to_state": "A_state_1_find", "write": "#", "action": "RIGHT"},
+        { "read" : "+", "to_state": "A_state_+_find", "write": "#", "action": "RIGHT"},
+        { "read" : "0", "to_state": "A_state", "write": "0", "action": "RIGHT"},
+        { "read" : "I", "to_state": "A_state", "write": "I", "action": "RIGHT"},
+        { "read" : "F", "to_state": "final", "write": "F", "action": "RIGHT"}
+      ],
+      "A_state_1_find": [
+        { "read" : "a", "to_state": "A_state_1_found", "write": "a", "action": "RIGHT"},
+        { "read" : "1", "to_state": "A_state_1_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "A_state_1_find", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "A_state_1_find", "write": ".", "action": "RIGHT"},
+        { "read" : "b", "to_state": "A_state_1_find", "write": "b", "action": "RIGHT"},
+        { "read" : "c", "to_state": "A_state_1_find", "write": "c", "action": "RIGHT"},
+        { "read" : "A", "to_state": "A_state_1_find", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "A_state_1_find", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "A_state_1_find", "write": "C", "action": "RIGHT"},
+        { "read" : "P", "to_state": "A_state_1_find", "write": "P", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "A_state_1_find", "write": "Q", "action": "RIGHT"},
+        { "read" : "F", "to_state": "A_state_1_find", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "A_state_1_find", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "A_state_1_find", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "A_state_1_find", "write": "#", "action": "RIGHT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "RIGHT"}
+      ],
+      "A_state_1_found": [
+        { "read" : "+", "to_state": "A_state_1_find", "write": "+", "action": "RIGHT"},
+        { "read" : "1", "to_state": "decide", "write": "1", "action": "RIGHT"}
+      ],
+      "A_state_+_find": [
+        { "read" : "a", "to_state": "A_state_+_found", "write": "a", "action": "RIGHT"},
+        { "read" : "1", "to_state": "A_state_+_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "A_state_+_find", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "A_state_+_find", "write": ".", "action": "RIGHT"},
+        { "read" : "b", "to_state": "A_state_+_find", "write": "b", "action": "RIGHT"},
+        { "read" : "c", "to_state": "A_state_+_find", "write": "c", "action": "RIGHT"},
+        { "read" : "A", "to_state": "A_state_+_find", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "A_state_+_find", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "A_state_+_find", "write": "C", "action": "RIGHT"},
+        { "read" : "P", "to_state": "A_state_+_find", "write": "P", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "A_state_+_find", "write": "Q", "action": "RIGHT"},
+        { "read" : "F", "to_state": "A_state_+_find", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "A_state_+_find", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "A_state_+_find", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "A_state_+_find", "write": "#", "action": "RIGHT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "RIGHT"}
+      ],
+      "A_state_+_found": [
+        { "read" : "1", "to_state": "A_state_+_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "decide", "write": "+", "action": "RIGHT"}
+      ],
+      "B_state": [
+        { "read" : "1", "to_state": "B_state_1_find", "write": "#", "action": "RIGHT"},
+        { "read" : "+", "to_state": "B_state_+_find", "write": "#", "action": "RIGHT"},
+        { "read" : "0", "to_state": "B_state", "write": "0", "action": "RIGHT"},
+        { "read" : "I", "to_state": "B_state", "write": "I", "action": "RIGHT"},
+        { "read" : "F", "to_state": "final", "write": "F", "action": "RIGHT"}
+      ],
+      "B_state_1_find": [
+        { "read" : "b", "to_state": "B_state_1_found", "write": "b", "action": "RIGHT"},
+        { "read" : "1", "to_state": "B_state_1_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "B_state_1_find", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "B_state_1_find", "write": ".", "action": "RIGHT"},
+        { "read" : "a", "to_state": "B_state_1_find", "write": "a", "action": "RIGHT"},
+        { "read" : "c", "to_state": "B_state_1_find", "write": "c", "action": "RIGHT"},
+        { "read" : "A", "to_state": "B_state_1_find", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "B_state_1_find", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "B_state_1_find", "write": "C", "action": "RIGHT"},
+        { "read" : "P", "to_state": "B_state_1_find", "write": "P", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "B_state_1_find", "write": "Q", "action": "RIGHT"},
+        { "read" : "F", "to_state": "B_state_1_find", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "B_state_1_find", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "B_state_1_find", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "B_state_1_find", "write": "#", "action": "RIGHT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "RIGHT"}
+      ],
+      "B_state_1_found": [
+        { "read" : "+", "to_state": "B_state_1_find", "write": "+", "action": "RIGHT"},
+        { "read" : "1", "to_state": "decide", "write": "1", "action": "RIGHT"}
+      ],
+      "B_state_+_find": [
+        { "read" : "b", "to_state": "B_state_+_found", "write": "b", "action": "RIGHT"},
+        { "read" : "1", "to_state": "B_state_+_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "B_state_+_find", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "B_state_+_find", "write": ".", "action": "RIGHT"},
+        { "read" : "a", "to_state": "B_state_+_find", "write": "a", "action": "RIGHT"},
+        { "read" : "c", "to_state": "B_state_+_find", "write": "c", "action": "RIGHT"},
+        { "read" : "A", "to_state": "B_state_+_find", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "B_state_+_find", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "B_state_+_find", "write": "C", "action": "RIGHT"},
+        { "read" : "P", "to_state": "B_state_+_find", "write": "P", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "B_state_+_find", "write": "Q", "action": "RIGHT"},
+        { "read" : "F", "to_state": "B_state_+_find", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "B_state_+_find", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "B_state_+_find", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "B_state_+_find", "write": "#", "action": "RIGHT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "RIGHT"}
+      ],
+      "B_state_+_found": [
+        { "read" : "1", "to_state": "B_state_+_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "decide", "write": "+", "action": "RIGHT"}
+      ],
+      "C_state": [
+        { "read" : "1", "to_state": "C_state_1_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "C_state_+_find", "write": "+", "action": "RIGHT"},
+        { "read" : "0", "to_state": "C_state", "write": "0", "action": "RIGHT"},
+        { "read" : "I", "to_state": "C_state", "write": "I", "action": "RIGHT"},
+        { "read" : "F", "to_state": "final", "write": "F", "action": "RIGHT"}
+      ],
+      "C_state_1_find": [
+        { "read" : "c", "to_state": "C_state_1_found", "write": "c", "action": "RIGHT"},
+        { "read" : "1", "to_state": "C_state_1_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "C_state_1_find", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "C_state_1_find", "write": ".", "action": "RIGHT"},
+        { "read" : "a", "to_state": "C_state_1_find", "write": "a", "action": "RIGHT"},
+        { "read" : "b", "to_state": "C_state_1_find", "write": "b", "action": "RIGHT"},
+        { "read" : "A", "to_state": "C_state_1_find", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "C_state_1_find", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "C_state_1_find", "write": "C", "action": "RIGHT"},
+        { "read" : "P", "to_state": "C_state_1_find", "write": "P", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "C_state_1_find", "write": "Q", "action": "RIGHT"},
+        { "read" : "F", "to_state": "C_state_1_find", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "C_state_1_find", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "C_state_1_find", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "C_state_1_find", "write": "#", "action": "RIGHT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "RIGHT"}
+      ],
+      "C_state_1_found": [
+        { "read" : "+", "to_state": "C_state_1_find", "write": "+", "action": "RIGHT"},
+        { "read" : "1", "to_state": "decide", "write": "1", "action": "RIGHT"}
+      ],
+      "C_state_+_find": [
+        { "read" : "c", "to_state": "C_state_+_found", "write": "c", "action": "RIGHT"},
+        { "read" : "1", "to_state": "C_state_+_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "C_state_+_find", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "C_state_+_find", "write": ".", "action": "RIGHT"},
+        { "read" : "a", "to_state": "C_state_+_find", "write": "a", "action": "RIGHT"},
+        { "read" : "b", "to_state": "C_state_+_find", "write": "b", "action": "RIGHT"},
+        { "read" : "A", "to_state": "C_state_+_find", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "C_state_+_find", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "C_state_+_find", "write": "C", "action": "RIGHT"},
+        { "read" : "P", "to_state": "C_state_+_find", "write": "P", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "C_state_+_find", "write": "Q", "action": "RIGHT"},
+        { "read" : "F", "to_state": "C_state_+_find", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "C_state_+_find", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "C_state_+_find", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "C_state_+_find", "write": "#", "action": "RIGHT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "RIGHT"}
+      ],
+      "C_state_+_found": [
+        { "read" : "1", "to_state": "C_state_+_find", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "decide", "write": "+", "action": "RIGHT"}
+      ],
+      "decide": [
+        { "read" : ".", "to_state": "set_dot", "write": "P", "action": "LEFT"},
+        { "read" : "1", "to_state": "set_one", "write": "Q", "action": "LEFT"}
+      ],
+      "set_dot": [
+        { "read" : "#", "to_state": "back", "write": "0", "action": "RIGHT"},
+        { "read" : "1", "to_state": "set_dot", "write": "1", "action": "LEFT"},
+        { "read" : "+", "to_state": "set_dot", "write": "+", "action": "LEFT"},
+        { "read" : ".", "to_state": "set_dot", "write": ".", "action": "LEFT"},
+        { "read" : "a", "to_state": "set_dot", "write": "a", "action": "LEFT"},
+        { "read" : "b", "to_state": "set_dot", "write": "b", "action": "LEFT"},
+        { "read" : "c", "to_state": "set_dot", "write": "c", "action": "LEFT"},
+        { "read" : "A", "to_state": "set_dot", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "set_dot", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "set_dot", "write": "C", "action": "LEFT"},
+        { "read" : "P", "to_state": "set_dot", "write": "P", "action": "LEFT"},
+        { "read" : "Q", "to_state": "set_dot", "write": "Q", "action": "LEFT"},
+        { "read" : "F", "to_state": "set_dot", "write": "F", "action": "LEFT"},
+        { "read" : "I", "to_state": "set_dot", "write": "I", "action": "LEFT"},
+        { "read" : "0", "to_state": "set_dot", "write": "0", "action": "LEFT"}
+      ],
+      "set_one": [
+        { "read" : "#", "to_state": "back", "write": "I", "action": "RIGHT"},
+        { "read" : "1", "to_state": "set_one", "write": "1", "action": "LEFT"},
+        { "read" : "+", "to_state": "set_one", "write": "+", "action": "LEFT"},
+        { "read" : ".", "to_state": "set_one", "write": ".", "action": "LEFT"},
+        { "read" : "a", "to_state": "set_one", "write": "a", "action": "LEFT"},
+        { "read" : "b", "to_state": "set_one", "write": "b", "action": "LEFT"},
+        { "read" : "c", "to_state": "set_one", "write": "c", "action": "LEFT"},
+        { "read" : "A", "to_state": "set_one", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "set_one", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "set_one", "write": "C", "action": "LEFT"},
+        { "read" : "P", "to_state": "set_one", "write": "P", "action": "LEFT"},
+        { "read" : "Q", "to_state": "set_one", "write": "Q", "action": "LEFT"},
+        { "read" : "F", "to_state": "set_one", "write": "F", "action": "LEFT"},
+        { "read" : "I", "to_state": "set_one", "write": "I", "action": "LEFT"},
+        { "read" : "0", "to_state": "set_one", "write": "0", "action": "LEFT"}
+      ],
+      "back": [
+        { "read" : "P", "to_state": "change_state", "write": ".", "action": "RIGHT"},
+        { "read" : "Q", "to_state": "change_state", "write": "1", "action": "RIGHT"},
+        { "read" : "1", "to_state": "back", "write": "1", "action": "RIGHT"},
+        { "read" : "+", "to_state": "back", "write": "+", "action": "RIGHT"},
+        { "read" : ".", "to_state": "back", "write": ".", "action": "RIGHT"},
+        { "read" : "a", "to_state": "back", "write": "a", "action": "RIGHT"},
+        { "read" : "b", "to_state": "back", "write": "b", "action": "RIGHT"},
+        { "read" : "c", "to_state": "back", "write": "c", "action": "RIGHT"},
+        { "read" : "A", "to_state": "back", "write": "A", "action": "RIGHT"},
+        { "read" : "B", "to_state": "back", "write": "B", "action": "RIGHT"},
+        { "read" : "C", "to_state": "back", "write": "C", "action": "RIGHT"},
+        { "read" : "F", "to_state": "back", "write": "F", "action": "RIGHT"},
+        { "read" : "I", "to_state": "back", "write": "I", "action": "RIGHT"},
+        { "read" : "0", "to_state": "back", "write": "0", "action": "RIGHT"},
+        { "read" : "#", "to_state": "back", "write": "#", "action": "RIGHT"}
+      ],
+      "change_state": [
+        { "read" : "A", "to_state": "change_state_A_begin", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "change_state_B_begin", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "change_state_C_begin", "write": "C", "action": "LEFT"}
+      ],
+      "change_state_A_begin": [
+        { "read" : "S", "to_state": "change_state_A", "write": "S", "action": "RIGHT"},
+        { "read" : "#", "to_state": "change_state_A_begin", "write": "#", "action": "LEFT"},
+        { "read" : "1", "to_state": "change_state_A_begin", "write": "1", "action": "LEFT"},
+        { "read" : "+", "to_state": "change_state_A_begin", "write": "+", "action": "LEFT"},
+        { "read" : ".", "to_state": "change_state_A_begin", "write": ".", "action": "LEFT"},
+        { "read" : "a", "to_state": "change_state_A_begin", "write": "a", "action": "LEFT"},
+        { "read" : "b", "to_state": "change_state_A_begin", "write": "b", "action": "LEFT"},
+        { "read" : "c", "to_state": "change_state_A_begin", "write": "c", "action": "LEFT"},
+        { "read" : "A", "to_state": "change_state_A_begin", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "change_state_A_begin", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "change_state_A_begin", "write": "C", "action": "LEFT"},
+        { "read" : "P", "to_state": "change_state_A_begin", "write": "P", "action": "LEFT"},
+        { "read" : "Q", "to_state": "change_state_A_begin", "write": "Q", "action": "LEFT"},
+        { "read" : "F", "to_state": "change_state_A_begin", "write": "F", "action": "LEFT"},
+        { "read" : "I", "to_state": "change_state_A_begin", "write": "I", "action": "LEFT"},
+        { "read" : "0", "to_state": "change_state_A_begin", "write": "0", "action": "LEFT"}
+      ],
+      "change_state_A": [
+        { "read" : "A", "to_state": "restart", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "restart", "write": "A", "action": "LEFT"},
+        { "read" : "C", "to_state": "restart", "write": "A", "action": "LEFT"}
+      ],
+      "change_state_B_begin": [
+        { "read" : "S", "to_state": "change_state_B", "write": "S", "action": "RIGHT"},
+        { "read" : "#", "to_state": "change_state_B_begin", "write": "#", "action": "LEFT"},
+        { "read" : "1", "to_state": "change_state_B_begin", "write": "1", "action": "LEFT"},
+        { "read" : "+", "to_state": "change_state_B_begin", "write": "+", "action": "LEFT"},
+        { "read" : ".", "to_state": "change_state_B_begin", "write": ".", "action": "LEFT"},
+        { "read" : "a", "to_state": "change_state_B_begin", "write": "a", "action": "LEFT"},
+        { "read" : "b", "to_state": "change_state_B_begin", "write": "b", "action": "LEFT"},
+        { "read" : "c", "to_state": "change_state_B_begin", "write": "c", "action": "LEFT"},
+        { "read" : "A", "to_state": "change_state_B_begin", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "change_state_B_begin", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "change_state_B_begin", "write": "C", "action": "LEFT"},
+        { "read" : "P", "to_state": "change_state_B_begin", "write": "P", "action": "LEFT"},
+        { "read" : "Q", "to_state": "change_state_B_begin", "write": "Q", "action": "LEFT"},
+        { "read" : "F", "to_state": "change_state_B_begin", "write": "F", "action": "LEFT"},
+        { "read" : "I", "to_state": "change_state_B_begin", "write": "I", "action": "LEFT"},
+        { "read" : "0", "to_state": "change_state_B_begin", "write": "0", "action": "LEFT"}
+      ],
+      "change_state_B": [
+        { "read" : "A", "to_state": "restart", "write": "B", "action": "LEFT"},
+        { "read" : "B", "to_state": "restart", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "restart", "write": "B", "action": "LEFT"}
+      ],
+      "change_state_C_begin": [
+        { "read" : "S", "to_state": "change_state_C", "write": "S", "action": "RIGHT"},
+        { "read" : "#", "to_state": "change_state_C_begin", "write": "#", "action": "LEFT"},
+        { "read" : "1", "to_state": "change_state_C_begin", "write": "1", "action": "LEFT"},
+        { "read" : "+", "to_state": "change_state_C_begin", "write": "+", "action": "LEFT"},
+        { "read" : ".", "to_state": "change_state_C_begin", "write": ".", "action": "LEFT"},
+        { "read" : "a", "to_state": "change_state_C_begin", "write": "a", "action": "LEFT"},
+        { "read" : "b", "to_state": "change_state_C_begin", "write": "b", "action": "LEFT"},
+        { "read" : "c", "to_state": "change_state_C_begin", "write": "c", "action": "LEFT"},
+        { "read" : "A", "to_state": "change_state_C_begin", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "change_state_C_begin", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "change_state_C_begin", "write": "C", "action": "LEFT"},
+        { "read" : "P", "to_state": "change_state_C_begin", "write": "P", "action": "LEFT"},
+        { "read" : "Q", "to_state": "change_state_C_begin", "write": "Q", "action": "LEFT"},
+        { "read" : "F", "to_state": "change_state_C_begin", "write": "F", "action": "LEFT"},
+        { "read" : "I", "to_state": "change_state_C_begin", "write": "I", "action": "LEFT"},
+        { "read" : "0", "to_state": "change_state_C_begin", "write": "0", "action": "LEFT"}
+      ],
+      "change_state_C": [
+        { "read" : "A", "to_state": "restart", "write": "C", "action": "LEFT"},
+        { "read" : "B", "to_state": "restart", "write": "C", "action": "LEFT"},
+        { "read" : "C", "to_state": "restart", "write": "C", "action": "LEFT"}
+      ],
+      "restart": [
+        { "read" : "S", "to_state": "initial", "write": "S", "action": "RIGHT"}
+      ],
+      "final": [
+        { "read" : "F", "to_state": "reset", "write": "F", "action": "LEFT"},
+        { "read" : "#", "to_state": "final", "write": "#", "action": "LEFT"},
+        { "read" : "1", "to_state": "final", "write": "1", "action": "LEFT"},
+        { "read" : "+", "to_state": "final", "write": "+", "action": "LEFT"},
+        { "read" : ".", "to_state": "final", "write": ".", "action": "LEFT"},
+        { "read" : "a", "to_state": "final", "write": "a", "action": "LEFT"},
+        { "read" : "b", "to_state": "final", "write": "b", "action": "LEFT"},
+        { "read" : "c", "to_state": "final", "write": "c", "action": "LEFT"},
+        { "read" : "A", "to_state": "final", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "final", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "final", "write": "C", "action": "LEFT"},
+        { "read" : "P", "to_state": "final", "write": "P", "action": "LEFT"},
+        { "read" : "Q", "to_state": "final", "write": "Q", "action": "LEFT"},
+        { "read" : "F", "to_state": "final", "write": "F", "action": "LEFT"},
+        { "read" : "I", "to_state": "final", "write": "I", "action": "LEFT"},
+        { "read" : "0", "to_state": "final", "write": "0", "action": "LEFT"},
+        { "read" : "X", "to_state": "final", "write": "X", "action": "LEFT"}
+      ],
+      "reset": [
+        { "read" : "0", "to_state": "reset", "write": "0", "action": "LEFT"},
+        { "read" : "I", "to_state": "reset", "write": "1", "action": "LEFT"},
+        { "read" : "1", "to_state": "reset", "write": "1", "action": "LEFT"},
+        { "read" : "A", "to_state": "HALT", "write": "A", "action": "LEFT"},
+        { "read" : "B", "to_state": "HALT", "write": "B", "action": "LEFT"},
+        { "read" : "C", "to_state": "HALT", "write": "C", "action": "LEFT"}
+      ],
+      "HALT": [
+        { "read" : ".", "to_state": "HALT", "write": ".", "action": "LEFT"}
+      ]
+    }
+  }

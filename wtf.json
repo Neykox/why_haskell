@@ -1,0 +1,49 @@
+{
+    "name" : "apappliances",
+    "alphabet": [ "1", ".", "+", "=", "a", "b", "c", "_" ],
+    "blank" : ".",
+    "states" : [ "init", "a", "b", "c", "back", "HALT" ],
+    "initial" : "init",
+    "finals" : [ "HALT" ],
+
+    "transitions" : {
+
+        "init": [
+            { "read" : "a", "to_state": "a", "write": ".", "action": "RIGHT"},
+            { "read" : "b", "to_state": "b", "write": ".", "action": "RIGHT"},
+            { "read" : "c", "to_state": "c", "write": ".", "action": "RIGHT"},
+            { "read" : "_", "to_state": "HALT", "write": ".", "action": "LEFT"}
+        ],
+
+        "a": [
+            { "read" : "1", "to_state": "back", "write": "_", "action": "LEFT"},
+            { "read" : "a", "to_state": "a", "write": "a", "action": "RIGHT"},
+            { "read" : "b", "to_state": "a", "write": "b", "action": "RIGHT"},
+            { "read" : "c", "to_state": "a", "write": "c", "action": "RIGHT"}
+        ],
+
+        "b": [
+            { "read" : "_", "to_state": "b", "write": "_", "action": "RIGHT"},
+            { "read" : "+", "to_state": "back", "write": "1", "action": "LEFT"},
+            { "read" : "1", "to_state": "b", "write": "1", "action": "RIGHT"},
+            { "read" : "c", "to_state": "b" , "write": "c", "action": "RIGHT" }
+        ],
+
+        "c": [
+            { "read" : "_", "to_state": "c", "write": "_", "action": "RIGHT"},
+            { "read" : "=", "to_state": "back", "write": ".", "action": "LEFT"},
+            { "read" : "1", "to_state": "c", "write": "1", "action": "RIGHT"}
+        ],
+
+        "back": [
+            { "read" : "1", "to_state": "back", "write": "1", "action": "LEFT"},
+            { "read" : "+", "to_state": "back", "write": "+", "action": "LEFT"},
+            { "read" : "=", "to_state": "back" , "write": "=", "action": "LEFT" },
+            { "read" : "_", "to_state": "back", "write": "_", "action": "LEFT"},
+            { "read" : "a", "to_state": "back", "write": "a", "action": "LEFT"},
+            { "read" : "b", "to_state": "back", "write": "b", "action": "LEFT"},
+            { "read" : "c", "to_state": "back", "write": "c", "action": "LEFT"},
+            { "read" : ".", "to_state": "init", "write": ".", "action": "RIGHT"}
+        ]
+    }
+}

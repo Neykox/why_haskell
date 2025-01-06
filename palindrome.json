@@ -2,7 +2,7 @@
     "name" : "palindrome",
     "alphabet": [ "1", "0", "n", "y", "." ],
     "blank" : ".",
-    "states" : [ "init", "skip_right_0", "skip_right_1", "check_left_0", "check_left_1", "skip_left", "problem", "HALT" ],
+    "states" : [ "init", "init_back", "skip_right_0", "skip_right_1", "check_left_0", "check_left_1", "skip_left", "problem", "HALT" ],
     "initial" : "init",
     "finals" : [ "HALT" ],
 
