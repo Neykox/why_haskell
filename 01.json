@@ -3,10 +3,15 @@
     "alphabet": [ "1", "0", ".", "y", "n" ],
     "blank" : ".",
     "states" : [ "odd_remove", "even_remove", "odd_0_skip_left", "odd_1_skip_left", "odd_1_skip_right", "odd_0_skip_right", "even_0_skip_left", "even_1_skip_left", "even_1_skip_right", "even_0_skip_right", "HALT" ],
-    "initial" : "odd_remove",
+    "initial" : "init",
     "finals" : [ "HALT" ],
 
     "transitions" : {
+
+        "init": [
+            { "read" : "0", "to_state": "odd_0_skip_right", "write": ".", "action": "RIGHT"},
+            { "read" : "1", "to_state": "problem", "write": "1", "action": "RIGHT"}
+        ],
 
         "odd_remove": [
             { "read" : "0", "to_state": "odd_0_skip_right", "write": ".", "action": "RIGHT"},

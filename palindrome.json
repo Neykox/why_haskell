@@ -28,12 +28,12 @@
 
         "check_left_0": [
             { "read" : "0", "to_state": "init_back", "write": ".", "action": "LEFT"},
-            { "read" : "1", "to_state": "problem", "write": "1", "action": "LEFT"},
+            { "read" : "1", "to_state": "problem", "write": "1", "action": "RIGHT"},
             { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
         ],
 
         "check_left_1": [
-            { "read" : "0", "to_state": "problem", "write": "0", "action": "LEFT"},
+            { "read" : "0", "to_state": "problem", "write": "0", "action": "RIGHT"},
             { "read" : "1", "to_state": "init_back", "write": ".", "action": "LEFT"},
             { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
         ],
